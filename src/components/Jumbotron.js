@@ -75,6 +75,11 @@ export default class Jumbotron extends Component {
         return(
             <div className="site">
                 <div className="jumbotron">
+                <div className="greeting">
+                    <h1 className="greeting__name">Ezell Frazier</h1>
+                    <h1 className="greeting__header">Full-Stack Web Developer</h1>
+                </div>
+                <div className="overlay"></div>
                     { images }
                 </div>
                 <div className="text">
