@@ -1,0 +1,28 @@
+.jumbotron {
+    position: relative;
+    margin: auto;
+    height: 500px;
+    overflow: hidden;
+}
+
+[class^="jumbotron__img"] {
+    position: absolute;
+    display: block;
+    transition: all .4s ease-in-out;
+    transform: scale(1.1);
+    width: 100%;
+    height: auto;
+}
+
+.jumbotron__img--inactive {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.jumbotron__img--active {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+
