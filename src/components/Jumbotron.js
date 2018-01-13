@@ -5,6 +5,8 @@ import lightbox from '../images/lightbox.jpg';
 import reactGallery from '../images/reactgallery.JPG';
 import samplePortfolio from '../images/sample-portfolio.JPG';
 
+import Navbar from './Navbar';
+
 export default class Jumbotron extends Component {
     constructor() {
         super();
@@ -74,6 +76,7 @@ export default class Jumbotron extends Component {
         
         return(
             <div className="site">
+                <Navbar />
                 <div className="jumbotron">
                 <div className="greeting">
                     <h1 className="greeting__name">Ezell Frazier</h1>
