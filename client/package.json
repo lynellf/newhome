@@ -1,0 +1,29 @@
+{
+  "name": "newhome",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-browser-router": "^2.0.5",
+    "react-dom": "^16.2.0",
+    "react-parallax": "^1.6.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "react-simple-icons": "^1.0.0-beta.5",
+    "recharts": "^1.0.0-beta.9",
+    "simple-icons": "^1.2.18"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-react": "^7.5.1"
+  }
+}

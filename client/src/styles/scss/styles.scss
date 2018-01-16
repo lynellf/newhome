@@ -1,0 +1,935 @@
+//=====================================================
+//Breakpoints
+//=====================================================
+$breaks: (
+  'sm': 599px,
+  'med': 600px,
+  'lg': 1024px
+);
+
+// ==========================================================================
+// BEM Selectors
+// ==========================================================================
+@mixin e($element) {
+  &__#{$element} {
+    @content;
+  }
+}
+
+@mixin m($modifier) {
+  &--#{$modifier} {
+    @content;
+  }
+}
+
+// ==========================================================================
+// Media Queries
+// ==========================================================================
+@mixin mq($break) {
+  $value: map-get($breaks, $break);
+  $med: map-get($breaks, 'med');
+  @if $value==null {
+    @error "`#{$break}` is not a valid breakpoint name";
+  } @else if $value < $med {
+    @media (max-width: $value) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $value) {
+      @content;
+    }
+  }
+}
+
+// Color Variables
+$shamrock: #2dbcad;
+$seashell: #f1f1f1;
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Hind|Titillium+Web:700i');
+
+body {
+  margin: 0;
+}
+
+p,
+span,
+li,
+td {
+  font-family: 'Hind', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+th {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+// Jumbotron config
+.react-parallax {
+  height: 100vh;
+}
+
+.react-parallax-bgimage {
+  @include mq('sm') {
+    height: 100vh;
+  }
+}
+
+.jumbotron {
+  position: relative;
+  margin: auto;
+  height: 100vh;
+  overflow: hidden;
+
+  @include e('img') {
+    @include m('inactive') {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    @include m('active') {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+[class^='jumbotron__img'] {
+  position: absolute;
+  top: 10%;
+  display: block;
+  transition: all 0.4s ease-in-out;
+  width: 100%;
+  z-index: 0;
+
+  @include mq('sm') {
+    top: 10%;
+    transform: scale(2);
+  }
+
+  @include mq('med') {
+    transform: scale(1.2);
+  }
+}
+
+// Only for large screen displays
+.greeting {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+  left: 0;
+  text-align: center;
+  top: 40%;
+
+  @include e('name') {
+    margin: auto;
+    color: white;
+    width: 100%;
+    font-family: 'Titillium Web', sans-serif;
+    font-style: italic;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 0px black;
+    @include mq('med') {
+      font-size: 4em;
+    }
+
+    @include mq('lg') {
+      font-size: 8em;
+    }
+  }
+
+  @include e('sub') {
+    margin: auto;
+    color: white;
+    width: 100%;
+    font-family: 'Hind', sans-serif;
+    @include mq('sm') {
+      font-size: 1em;
+    }
+
+    @include mq('med') {
+      font-size: 2em;
+    }
+  }
+}
+
+.overlay {
+  position: absolute;
+  display: block;
+  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+');
+  opacity: 0.9;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+// Navbar component
+.navbar {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  transition: all 0.4s ease-in-out;
+
+  @include m('scrolled') {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    background: black;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  @include e('nav') {
+    @include mq('sm') {
+      display: flex;
+      flex-direction: column;
+      height: 16px;
+      transition: all 0.4s ease-in-out;
+    }
+
+    @include m('toggled') {
+      @include mq('sm') {
+        display: flex;
+        flex-direction: column;
+        height: 190px;
+        transition: all 0.4s ease-in-out;
+      }
+
+      display: flex;
+      justify-content: space-between;
+      transition: all 0.4s ease-in-out;
+    }
+
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.4s ease-in-out;
+  }
+
+  @include e('name') {
+    font-family: 'Hind', sans-serif;
+    @include mq('sm') {
+      margin: auto;
+    }
+
+    @include mq('med') {
+      margin: 16px 0;
+      padding-left: 30px;
+    }
+
+    color: white;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+
+    @include m('scrolled') {
+      font-family: 'Hind', sans-serif;
+      @include mq('sm') {
+        margin: auto;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      @include mq('med') {
+        margin: 16px 0;
+        padding-left: 30px;
+        visibility: visible;
+        opacity: 1;
+      }
+
+      @include m('toggled') {
+        font-family: 'Hind', sans-serif;
+        @include mq('sm') {
+          margin: auto;
+          visibility: visible;
+          opacity: 1;
+          color: white;
+          transition: all 0.4s ease-in-out;
+        }
+
+        @include mq('med') {
+          margin: 16px 0;
+          padding-left: 30px;
+          visibility: visible;
+          opacity: 1;
+        }
+
+        color: white;
+        transition: all 0.4s ease-in-out;
+      }
+
+      color: white;
+      transition: all 0.4s ease-in-out;
+    }
+  }
+
+  @include e('list') {
+    font-family: 'Hind', sans-serif;
+    display: flex;
+    @include mq('sm') {
+      flex-direction: column;
+      margin: auto;
+      padding: 0;
+    }
+
+    @include mq('med') {
+      padding-right: 30px;
+    }
+  }
+
+  @include e('item') {
+    font-family: 'Hind', sans-serif;
+    @include mq('sm') {
+      margin: 8px 0;
+    }
+
+    @include mq('med') {
+      margin: 0 20px;
+    }
+
+    visibility: hidden;
+    opacity: 0;
+    color: white;
+    list-style: none;
+
+    @include m('scrolled') {
+      font-family: 'Hind', sans-serif;
+      @include mq('sm') {
+        margin: 8px 0;
+        text-align: center;
+        visibility: hidden;
+        opacity: 0;
+      }
+      @include mq('med') {
+        margin: 0 20px;
+        visibility: visible;
+        opacity: 1;
+      }
+      color: white;
+      list-style: none;
+
+      a {
+        padding: 6px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.1s ease-in-out;
+        &:hover {
+          background: $shamrock;
+          opacity: 0.9;
+          border-radius: 2px;
+          box-shadow: 0 0 0 1px white;
+          transition: all 0.1s ease-in-out;
+        }
+      }
+
+      @include m('toggled') {
+        font-family: 'Hind', sans-serif;
+        @include mq('sm') {
+          margin: 8px 0;
+          list-style: none;
+          text-align: center;
+          visibility: visible;
+          opacity: 1;
+          color: white;
+          transition: all 0.4s ease-in-out;
+        }
+
+        @include mq('med') {
+          margin: 0 20px;
+          visibility: visible;
+          opacity: 1;
+        }
+
+        color: white;
+        list-style: none;
+
+        a {
+          padding: 6px;
+          text-decoration: none;
+          color: white;
+          transition: all 0.1s ease-in-out;
+          &:hover {
+            background: $shamrock;
+            opacity: 0.9;
+            border-radius: 2px;
+            box-shadow: 0 0 0 1px white;
+            transition: all 0.1s ease-in-out;
+          }
+        }
+      }
+    }
+  }
+
+  @include e('hamburger') {
+    display: none;
+    visibility: hidden;
+    @include mq('sm') {
+      display: block;
+      visibility: hidden;
+      margin: auto;
+      padding-top: 16px;
+      fill: white;
+      enable-background: new 0 0 32 32;
+    }
+
+    @include m('scrolled') {
+      display: none;
+      visibility: hidden;
+      @include mq('sm') {
+        display: block;
+        visibility: visible;
+        margin: auto;
+        padding-top: 16px;
+        fill: white;
+        enable-background: new 0 0 32 32;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Project list
+.project {
+  overflow: hidden;
+  border-top: 0.5px solid rgb(117, 115, 115);
+  border-bottom: 0.5px solid rgb(117, 115, 115);
+  background: $seashell;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: white;
+  }
+
+  @include e('title-container') {
+    @include m('active') {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 46px;
+    }
+  }
+
+  @include e('title') {
+    margin: 20px 16px;
+    font-family: 'Hind', sans-serif;
+    @include mq('sm') {
+      font-size: 1.1em;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  @include e('controls') {
+    visibility: hidden;
+    display: none;
+
+    @include m('active') {
+      margin-top: 20px;
+      @include mq('med') {
+        margin: 20px 16px;
+      }
+    }
+  }
+
+  @include e('article') {
+    visibility: hidden;
+    display: none;
+
+    @include m('active') {
+      transition: all 0.4s ease-in-out;
+      visibility: visible;
+      display: block;
+    }
+  }
+}
+
+.controls {
+  @include e('back') {
+    @include mq('sm') {
+      margin: 0 4px;
+      height: 15px;
+    }
+    @include mq('med') {
+      margin: 0 16px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  @include e('forward') {
+    @include mq('sm') {
+      margin: 0 4px;
+    }
+    @include mq('med') {
+      margin: 0 16px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  @include e('close') {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.article {
+  @include e('container') {
+    margin-top: 32px;
+    display: flex;
+    @include mq('sm') {
+      flex-direction: column;
+    }
+
+    @include mq('med') {
+      flex-direction: row;
+    }
+  }
+
+  @include e('post') {
+    margin-left: 8px;
+    img {
+      height: 100%;
+      width: 100%;
+      transform: scale(0.5 0.5);
+    }
+
+    pre {
+      background: black;
+      color: white;
+      overflow: scroll;
+      border-radius: 3px;
+    }
+    @include mq('med') {
+      width: 50%;
+    }
+  }
+
+  @include e('image') {
+    height: 100%;
+    width: 100%;
+    transform: scale(0.5 0.5);
+  }
+}
+
+.skill {
+  margin: 0 8px;
+  padding: 4px;
+  border-radius: 3px;
+  color: white;
+  background: $shamrock;
+
+  @include mq('sm') {
+    margin: 4px;
+  }
+}
+
+// Footer
+.footer {
+  min-height: 100vh;
+  background-image: url('D:/Documents/Projects and Demos/newhome/src/images/houston.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column-reverse;
+
+  @include e('container') {
+    background: black;
+    border-radius: 4px;
+    opacity: 0.8;
+
+    @include mq('sm') {
+      margin-top: 50px;
+    }
+
+    @include mq('med') {
+      margin-top: 50px;
+    }
+
+    @include mq('lg') {
+      padding: 8px;
+      width: 35%;
+    }
+  }
+
+  @include e('title') {
+    color: white;
+    font-family: 'Hind', sans-serif;
+  }
+
+  @include e('social') {
+    fill: white;
+    width: auto;
+    height: 24px;
+    margin: 0 4px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      fill: $shamrock;
+    }
+  }
+
+  @include e('summary') {
+    color: white;
+  }
+
+  @include e('legal') {
+    color: white;
+  }
+}
+
+// Register /Login
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('D:/Documents/Projects and Demos/newhome/src/images/houston.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @include e('form') {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    background: black;
+    opacity: 0.8;
+    color: white;
+    border-radius: 6px;
+    input {
+      margin: 4px 0;
+    }
+  }
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('D:/Documents/Projects and Demos/newhome/src/images/houston.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @include e('form') {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    background: black;
+    opacity: 0.8;
+    color: white;
+    border-radius: 6px;
+    input {
+      margin: 4px 0;
+    }
+  }
+}
+
+// Control Panel
+.cpanel {
+  display: grid;
+  min-height: 100vh;
+  @include mq('sm') {
+    grid-template-rows: 65px 65px 1fr;
+    grid-template-areas:
+      'top'
+      'side'
+      'main';
+  }
+  @include mq('med') {
+    grid-template-rows: 65px 1fr;
+    grid-template-columns: 65px 1fr;
+    grid-template-areas:
+      'top top'
+      'side main';
+  }
+
+  @include e('top') {
+    grid-area: top;
+    display: flex;
+    justify-content: space-between;
+    background: black;
+    color: white;
+
+    @include e('title') {
+      margin: 15px 16px;
+      @include mq('sm') {
+          font-size: 0.8em;
+      }
+    }
+    @include e('options') {
+        @include mq('sm') {
+            font-size: 0.7em;
+        }
+      list-style: none;
+      display: flex;
+      margin: 20px 16px;
+      padding: 0;
+    }
+    @include e('link') {
+      margin: 0 4px;
+      padding: 6px;
+      background: black;
+      text-decoration: none;
+      color: white;
+      border: thin solid white;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background: white;
+        color: black;
+      }
+    }
+  }
+
+  @include e('side') {
+    grid-area: side;
+    display: flex;
+    background: $shamrock;
+    padding: 10px;
+    @include mq('sm') {
+      flex-direction: row;
+    //   align-items: center;
+    //   justify-content: space-around;
+    }
+
+    @include mq('med') {
+      flex-direction: column;
+    }
+
+    @include e('traffic') {
+      @include mq('sm') {
+        height: 90%;
+        width: auto;
+        margin: 0 44px;
+      }
+
+      @include mq('med') {
+        height: 35px;
+        width: auto;
+        margin: 40px auto;
+      }
+    }
+    @include e('files') {
+        @include mq('sm') {
+            height: 90%;
+            width: auto;
+            margin: 0 44px;
+        }
+        @include mq('med') {
+            height: 35px;
+            width: 35px;
+            margin: 40px auto;
+        }
+    }
+    @include e('news') {
+        @include mq('sm') {
+            height: 90%;
+            width: auto;
+            margin: 0 44px;
+        }
+        @include mq('med') {
+            height: 30px;
+            width: auto;
+            margin: 40px auto;
+        }
+    }
+  }
+
+  @include e('title') {
+    text-align: center;
+  }
+
+  @include e('main') {
+    grid-area: main;
+    margin: 0 auto 16px auto;
+    width: 100%;
+    max-width: 1024px;
+
+    @include e('minor') {
+      display: flex;
+      @include mq('sm') {
+        flex-direction: column;
+      }
+    }
+
+    @include e('title') {
+      display: inline-block;
+    }
+
+    @include e('monthly') {
+      margin: auto;
+      min-width: 75%;
+      @include mq('sm') {
+        min-width: 90%;
+        padding: 0 16px;
+        height: auto;
+      }
+
+      @include mq('med') {
+        padding: 0 32px;
+        max-width: 800px;
+        height: auto;
+      }
+    }
+
+    @include e('daily') {
+      margin: auto;
+      min-width: 40%;
+      @include mq('sm') {
+        min-width: 90%;
+        padding: 0 16px;
+        max-width: 300px;
+        height: auto;
+      }
+
+      @include mq('med') {
+        padding: 0 32px;
+        max-width: 500px;
+        height: auto;
+      }
+    }
+
+    @include e('mobile') {
+      margin: auto;
+      min-width: 40%;
+      @include mq('sm') {
+        min-width: 90%;
+        padding: 0 16px;
+        max-width: 300px;
+        height: auto;
+      }
+
+      @include mq('med') {
+        padding: 0 32px;
+        max-width: 500px;
+        height: auto;
+      }
+    }
+  }
+  @include e('posts') {
+    width: 90%;
+    margin: 32px auto;
+    border: thin solid black;
+
+    @include mq('sm') {
+      width: 100%;
+      padding: 4px;
+      th {
+        display: none;
+      }
+
+      td:nth-of-type(1):before {
+        content: 'Name';
+        font-weight: 700;
+        display: inline-block;
+        width: 50%;
+      }
+
+      td:nth-of-type(2):before {
+        content: 'Date Created';
+        font-weight: 700;
+        display: inline-block;
+        width: 50%;
+      }
+
+      td:nth-of-type(3):before {
+        content: 'Options';
+        font-weight: 700;
+        display: inline-block;
+        width: 50%;
+      }
+    }
+
+    @include mq('med') {
+      padding: 16px;
+      td {
+        text-align: center;
+      }
+    }
+
+    @include e('buttons') {
+      display: inline-block;
+      button {
+        border: none;
+        outline: none;
+        margin: 0 2px;
+        background: black;
+        color: white;
+        border: thin solid white;
+        padding: 8px;
+        border-radius: 6px;
+        transition: all 0.1s ease-in-out;
+
+        &:active {
+          background: $shamrock;
+        }
+      }
+    }
+    @include e('nav') {
+        display: flex;
+        list-style: none;
+        margin: auto;
+        padding: 0;
+        max-width: 100px;
+    }
+    @include e('item') {
+        padding: 8px;
+        border-radius: 6px;
+        background: black;
+        color: white;
+        margin: 0 8px;
+        transition: all 0.1s ease-in-out;
+
+         &:active {
+            background: $shamrock;
+        }
+
+    }
+    @include e('post') {
+      @include m('active') {
+        &:nth-child(2n) {
+          background: $seashell;
+          color: black;
+        }
+
+        @include mq('sm') {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+      @include m('inactive') {
+        display: none;
+
+        @include mq('sm') {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.traffic {
+  @include e('line') {
+    width: 300px;
+    height: 300px;
+  }
+}
