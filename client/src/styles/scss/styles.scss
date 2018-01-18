@@ -541,7 +541,7 @@ th {
 // Footer
 .footer {
   min-height: 100vh;
-  background-image: url('D:/Documents/Projects and Demos/newhome/src/images/houston.jpg');
+  background-image: url('D:/Documents/Projects and Demos/newhome/client/src/images/houston.jpg');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -600,7 +600,7 @@ th {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('D:/Documents/Projects and Demos/newhome/src/images/houston.jpg');
+  background-image: url('D:/Documents/Projects and Demos/newhome/client/src/images/houston.jpg');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -624,7 +624,7 @@ th {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('D:/Documents/Projects and Demos/newhome/src/images/houston.jpg');
+  background-image: url('D:/Documents/Projects and Demos/newhome/client/src/images/houston.jpg');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -661,6 +661,19 @@ th {
     grid-template-areas:
       'top top'
       'side main';
+  }
+
+  @include e('editor') {
+    margin: auto;
+    margin-top: 50px;
+    @include mq('sm') {
+      width: 95%;
+    }
+
+    @include mq('med') {
+      min-width: 500px;
+      max-width: 900px;
+    }
   }
 
   @include e('top') {
@@ -707,8 +720,8 @@ th {
     padding: 10px;
     @include mq('sm') {
       flex-direction: row;
-    //   align-items: center;
-    //   justify-content: space-around;
+      align-items: center;
+      justify-content: space-around;
     }
 
     @include mq('med') {
@@ -717,9 +730,9 @@ th {
 
     @include e('traffic') {
       @include mq('sm') {
-        height: 90%;
-        width: auto;
-        margin: 0 44px;
+        height: auto;
+        width: 50%;
+        // margin: 0 44px;
       }
 
       @include mq('med') {
@@ -730,9 +743,9 @@ th {
     }
     @include e('files') {
         @include mq('sm') {
-            height: 90%;
-            width: auto;
-            margin: 0 44px;
+            height: auto;
+            width: 50%;
+            // margin: 0 44px;
         }
         @include mq('med') {
             height: 35px;
@@ -742,9 +755,9 @@ th {
     }
     @include e('news') {
         @include mq('sm') {
-            height: 90%;
-            width: auto;
-            margin: 0 44px;
+            height: auto;
+            width: 50%;
+            // margin: 0 44px;
         }
         @include mq('med') {
             height: 30px;
@@ -927,9 +940,69 @@ th {
   }
 }
 
+.side {
+  @include e('nav') {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    @include mq('med') {
+      flex-direction: column;
+    }
+  }
+
+  @include e('item') {
+    margin: auto;
+  }
+
+  @include e('traffic') {
+    @include mq('sm') {
+      height: auto;
+      width: 50px;
+      margin: 0 25px;
+    }
+
+    @include mq('med') {
+      height: auto;
+      width: 100%;
+    }
+  }
+  @include e('news') {
+    @include mq('sm') {
+      height: auto;
+      width: 50px;
+      margin: 0 25px;
+    }
+    @include mq('med') {
+      height: auto;
+      width: 100%;
+      margin: 50px 0;
+    }
+  }
+  @include e('file') {
+    @include mq('sm') {
+      height: auto;
+      width: 50px;
+      margin: 0 25px;
+    }
+    @include mq('med') {
+      height: auto;
+      width: 50px;
+    }
+  }
+}
+
 .traffic {
   @include e('line') {
     width: 300px;
     height: 300px;
   }
+}
+
+.error {
+  padding: 10px;
+  border-radius: 6px;
+  background: red;
+  color: white;
+  font-family: 'Titillium Web',
+  sans-serif;
 }

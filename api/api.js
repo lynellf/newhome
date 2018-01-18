@@ -1,7 +1,93 @@
+/*eslint no-undef: "error"*/
+/*eslint-env node*/
+/*eslint no-console: 0*/
 const express = require('express'),
     api = express(),
+    parser = require('body-parser'),
     dbRouter = require('./dbConfig/index'),
-    apiPort = 3001;
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
+    apiPort = 3001,
+    database = require('mongoose'),
+    dbName = 'home',
+    dbPort = 27017;
+
+// Database listening
+
+database.connect(`mongodb://localhost:${dbPort}/${dbName}`, () =>
+    console.log(`The database has initiated on port ${dbPort}`)
+);
+const store = database.connection;
+
+// parse incoming requests
+api.use(parser.json());
+api.use(parser.urlencoded({ extended: false }));
+
+// Use sessions for tracking all request objects
+api.use(session({
+    secret: 'Ezell Frazier dot com',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: store,
+    }),
+}));
+
+// Database routing
+api.use('/api', dbRouter);
+
+const User = require('./dbConfig/model/users');
+
+// POST / User login
+api.post('/api/login', (req, res, next) => {
+    console.log(req.body);
+    const userData = req.body;
+    User.authenticate(userData, (error, user, err) => {
+        if (err) {
+            let err = new Error('Wrong email or password');
+            err.status = 401;
+            next(err);
+        } else {
+            req.session.userId = user._id;
+            return res.send(true);
+        }
+    });
+});
+
+// GET / Logout
+api.get('/api/logout', function(req, res, next) {
+    console.log(req.session);
+    if (req.session) {
+    // delete session object
+        req.session.destroy(function(err) {
+            if(err) {
+                return next(err);
+            } else {
+                return res.send(true);
+            }
+        });
+    }
+});
+
+
+api.use('/api/session', function(req, res) {
+    console.log(req.session.userId);
+    const sessionData = req.session;
+    sessionData.currentUser = req.session.userId;
+    res.send(sessionData);
+});
+
+
+// 404 not found error handling
+api.use(function(req, res, next) {
+    res.status(404).send('Sorry can\'t find that!');
+});
+
+// Error handler
+api.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send(`${err.message} ${err.status}`);
+});
 
 
 api.listen( apiPort, () => console.log(`The API is listening on port ${apiPort}`));

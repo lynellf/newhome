@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import {
   LineChart,
   Line,
@@ -37,41 +38,35 @@ const dataP = [
 export default class Traffic extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      authenticated: false,
+      loading: true
+    };
+  }
+
+  authenticateUser() {
+    axios.get('/api/controlpanel', null).then(response => {
+      console.log(response.data);
+      if (response.data === true) {
+        this.setState({ authenticated: true });
+      }
+    });
+  }
+
+  componentWillMount() {
+    this.authenticateUser();
   }
   render() {
-    return (
-      <div className="cpanel">
-        <Topbar />
-        <Sidebar />
-        <div className="cpanel__main">
-          <div className="cpanel__main__monthly">
-          <h3 className="cpanel__main__title">Monthly Traffic</h3>
-            <ResponsiveContainer width="100%" aspect={2}>
-              <LineChart
-                data={data}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="pv"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="cpanel__main__minor">
-            <div className="cpanel__main__daily">
-            <h3 className="cpanel__main__title">Daily Traffic</h3>
+    if (this.state.authenticated === true) {
+      return (
+        <div className="cpanel">
+          <Topbar />
+          <Sidebar />
+          <div className="cpanel__main">
+            <div className="cpanel__main__monthly">
+              <h3 className="cpanel__main__title">Monthly Traffic</h3>
               <ResponsiveContainer width="100%" aspect={2}>
-                <BarChart
+                <LineChart
                   data={data}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 >
@@ -80,22 +75,52 @@ export default class Traffic extends Component {
                   <CartesianGrid strokeDasharray="3 3" />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="pv" fill="#8884d8" />
-                  <Bar dataKey="uv" fill="#82ca9d" />
-                </BarChart>
+                  <Line
+                    type="monotone"
+                    dataKey="pv"
+                    stroke="#8884d8"
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="cpanel__main__mobile">
-            <h3 className="cpanel__main__title">Mobile Traffic</h3>
-              <ResponsiveContainer width="100%" aspect={2}>
-                <PieChart>
-                  <Pie data={dataP} fill="#8884d8" label dataKey="value" />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="cpanel__main__minor">
+              <div className="cpanel__main__daily">
+                <h3 className="cpanel__main__title">Daily Traffic</h3>
+                <ResponsiveContainer width="100%" aspect={2}>
+                  <BarChart
+                    data={data}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="pv" fill="#8884d8" />
+                    <Bar dataKey="uv" fill="#82ca9d" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="cpanel__main__mobile">
+                <h3 className="cpanel__main__title">Mobile Traffic</h3>
+                <ResponsiveContainer width="100%" aspect={2}>
+                  <PieChart>
+                    <Pie data={dataP} fill="#8884d8" label dataKey="value" />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <h1>You are not authorized to view this page</h1>
+        </div>
+      );
+    }
   }
 }

@@ -373,7 +373,7 @@ th {
 
 .footer {
   min-height: 100vh;
-  background-image: url("D:/Documents/Projects and Demos/newhome/src/images/houston.jpg");
+  background-image: url("D:/Documents/Projects and Demos/newhome/client/src/images/houston.jpg");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -416,7 +416,7 @@ th {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("D:/Documents/Projects and Demos/newhome/src/images/houston.jpg");
+  background-image: url("D:/Documents/Projects and Demos/newhome/client/src/images/houston.jpg");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -437,7 +437,7 @@ th {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("D:/Documents/Projects and Demos/newhome/src/images/houston.jpg");
+  background-image: url("D:/Documents/Projects and Demos/newhome/client/src/images/houston.jpg");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -465,6 +465,16 @@ th {
       grid-template-rows: 65px 1fr;
       grid-template-columns: 65px 1fr;
       grid-template-areas: 'top top' 'side main'; } }
+  .cpanel__editor {
+    margin: auto;
+    margin-top: 50px; }
+    @media (max-width: 599px) {
+      .cpanel__editor {
+        width: 95%; } }
+    @media (min-width: 600px) {
+      .cpanel__editor {
+        min-width: 500px;
+        max-width: 900px; } }
   .cpanel__top {
     grid-area: top;
     display: flex;
@@ -502,15 +512,16 @@ th {
     padding: 10px; }
     @media (max-width: 599px) {
       .cpanel__side {
-        flex-direction: row; } }
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around; } }
     @media (min-width: 600px) {
       .cpanel__side {
         flex-direction: column; } }
     @media (max-width: 599px) {
       .cpanel__side__traffic {
-        height: 90%;
-        width: auto;
-        margin: 0 44px; } }
+        height: auto;
+        width: 50%; } }
     @media (min-width: 600px) {
       .cpanel__side__traffic {
         height: 35px;
@@ -518,9 +529,8 @@ th {
         margin: 40px auto; } }
     @media (max-width: 599px) {
       .cpanel__side__files {
-        height: 90%;
-        width: auto;
-        margin: 0 44px; } }
+        height: auto;
+        width: 50%; } }
     @media (min-width: 600px) {
       .cpanel__side__files {
         height: 35px;
@@ -528,9 +538,8 @@ th {
         margin: 40px auto; } }
     @media (max-width: 599px) {
       .cpanel__side__news {
-        height: 90%;
-        width: auto;
-        margin: 0 44px; } }
+        height: auto;
+        width: 50%; } }
     @media (min-width: 600px) {
       .cpanel__side__news {
         height: 30px;
@@ -663,8 +672,53 @@ th {
         .cpanel__posts__post--inactive {
           display: none; } }
 
+.side__nav {
+  list-style: none;
+  padding: 0;
+  display: flex; }
+  @media (min-width: 600px) {
+    .side__nav {
+      flex-direction: column; } }
+.side__item {
+  margin: auto; }
+@media (max-width: 599px) {
+  .side__traffic {
+    height: auto;
+    width: 50px;
+    margin: 0 25px; } }
+@media (min-width: 600px) {
+  .side__traffic {
+    height: auto;
+    width: 100%; } }
+@media (max-width: 599px) {
+  .side__news {
+    height: auto;
+    width: 50px;
+    margin: 0 25px; } }
+@media (min-width: 600px) {
+  .side__news {
+    height: auto;
+    width: 100%;
+    margin: 50px 0; } }
+@media (max-width: 599px) {
+  .side__file {
+    height: auto;
+    width: 50px;
+    margin: 0 25px; } }
+@media (min-width: 600px) {
+  .side__file {
+    height: auto;
+    width: 50px; } }
+
 .traffic__line {
   width: 300px;
   height: 300px; }
+
+.error {
+  padding: 10px;
+  border-radius: 6px;
+  background: red;
+  color: white;
+  font-family: 'Titillium Web', sans-serif; }
 
 /*# sourceMappingURL=styles.css.map */

@@ -1,55 +1,44 @@
+/*eslint no-undef: "error"*/
+/*eslint-env node*/
+/*eslint no-console: 0*/
 const express = require('express'),
-  api = express(),
-  router = express.Router(),
-  session = require('express-session'),
-  mongoose = require('mongoose'),
-  MongoStore = require('connect-mongo')(session),
-  User = require('./model/users'),
-  database = require('mongoose'),
-  store = mongoose.connection,
-  dbName = 'home',
-  dbPort = 27017;
+    router = express.Router(),
+    User = require('./model/users');
 
-database.connect(`mongodb://localhost:${dbPort}/${dbName}`, () =>
-  console.log(`The database has initiated on port ${dbPort}`)
-);
-
-// Use sessions for tracking logins
-api.use(session({
-    secret: 'Ezell Frazier dot com',
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: store,
-    }),
-}));
-
+// GET/ Control panel
+router.get('/controlpanel', (req, res, next) => {
+    console.log(req.session);
+    if (! req.session.userId) {
+        const err = new Error('You are not authorized to view this page.');
+        err.status = 403;
+        return next(err);
+    }
+    User.findById(req.session.userId)
+        .exec((error) => {
+            if (error) {
+                console.log(error);
+                return next(error);
+            } else {
+                return res.send(true);
+            }
+        });
+});
+    
 // User registration
-router.post('/api/register', (req, res) => {
-    const userData = req.userData;
+router.post('/register', (req, res, next) => {
+    console.log(req.body);
+    const userData = req.body;
     // Collect registration data and post to database
-    User.create(userData, (error, user) => {
-        if (error) {
-            console.log(error);
-            res.send(`${error}`);
+    User.create(userData, (err) => {
+        if (err) {
+            console.log(err);
+            next(err);
         } else {
-            return true
+            res.send(true);
         }
     });
 });
 
-// User login
-router.post('/api/login', (req, res, next) => {
-    const userData = req.userData;
 
-    User.authenticate(userData, (error, user) => {
-        if (err || user) {
-            let err = new Error('Wrong email or password');
-            err.status = 401;
-            return res.send(err);
-        } else {
-            req.session.userId = user._id;
-            return res.send(true);
-        }
-    });
-});
+
+module.exports = router;
