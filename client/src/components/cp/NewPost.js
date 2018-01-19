@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 
+import Dropzone from 'react-dropzone'
 import RichTextEditor from 'react-rte';
 import axios from 'axios';
 
@@ -13,8 +14,30 @@ export default class NewPost extends Component {
       loading: true,
       value: RichTextEditor.createEmptyValue(),
       post: '',
+      files: []
     };
     this.writePost = this.writePost.bind(this);
+    this.uploadImages = this.uploadImages.bind(this);
+  }
+
+  uploadImages() {
+    axios.post('/api/imageupload', this.state.files, {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+  })
+    .then(response => {
+      console.log(response.data);
+      this.setState({
+        files: []
+      });
+    });
+  }
+
+  onDrop(files) {
+    this.setState({
+      files
+    });
   }
 
   writePost(value) {
@@ -50,6 +73,18 @@ export default class NewPost extends Component {
                 className="cpanel__editor"
               />
               <input type="text" placeholder="Add Related Skills" className="post-form__skills"/>
+              <Dropzone onDrop={this.onDrop.bind(this)}>
+            <p>Try dropping some files here, or click to select files to upload.</p>
+          </Dropzone>
+          <aside>
+          <h2>Dropped files</h2>
+          <ul>
+            {
+              this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+        </aside>
+        <button type="button" onClick={event => this.uploadImages()}>Upload Images</button>
             </form>
           </div>
         </div>

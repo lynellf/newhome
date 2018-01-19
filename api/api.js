@@ -4,6 +4,7 @@
 const express = require('express'),
     api = express(),
     parser = require('body-parser'),
+    multer = require('multer'),
     dbRouter = require('./dbConfig/index'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
@@ -11,6 +12,26 @@ const express = require('express'),
     database = require('mongoose'),
     dbName = 'home',
     dbPort = 27017;
+
+// File uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './');
+    },
+});
+
+const upload = multer({ storage: storage }).array('image', 100);
+
+api.post('/api/imageupload', function(req, res) {
+    console.log(req.body);
+    upload(req, res, function(err) {
+        if(err) {
+            return res.send('Error uploading file(s)');
+        } else {
+            return res.send('File is uploaded');
+        }
+    });
+});
 
 // Database listening
 
