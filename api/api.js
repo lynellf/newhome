@@ -15,10 +15,16 @@ const express = require('express'),
 
 // File uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, './');
+    destination: function(req, file, callback) {
+        callback(null, '../client/public/img');
+    },
+    filename: function(req, file, cb) {
+        cb(null, (fileName = file.originalname));
+        fileName;
+        console.log(fileName); // Appending extension
     },
 });
+
 
 const upload = multer({ storage: storage }).array('image', 100);
 
