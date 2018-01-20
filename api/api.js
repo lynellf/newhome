@@ -1,6 +1,7 @@
 /*eslint no-undef: "error"*/
 /*eslint-env node*/
 /*eslint no-console: 0*/
+/*eslint linebreak-style: ["error", "unix"]*/
 const express = require('express'),
     api = express(),
     parser = require('body-parser'),
@@ -9,6 +10,7 @@ const express = require('express'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
     apiPort = 3001,
+    Project = require('./dbConfig/model/projects'),
     database = require('mongoose'),
     dbName = 'home',
     dbPort = 27017;
@@ -39,6 +41,8 @@ api.post('/api/imageupload', function(req, res) {
     });
 });
 
+
+
 // Database listening
 
 database.connect(`mongodb://localhost:${dbPort}/${dbName}`, () =>
@@ -49,6 +53,21 @@ const store = database.connection;
 // parse incoming requests
 api.use(parser.json());
 api.use(parser.urlencoded({ extended: false }));
+
+// POST / New Post
+
+api.post('/api/newpost', function(req, res, next) {
+    const projectData = req.body;
+    console.log(req.body);
+    Project.create(projectData, (err) => {
+        if (err) {
+            console.log(err);
+            next(err);
+        } else {
+            res.send(true);
+        }
+    });
+});
 
 // Use sessions for tracking all request objects
 api.use(session({

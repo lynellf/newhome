@@ -1,6 +1,7 @@
 /*eslint no-undef: "error"*/
 /*eslint-env node*/
 /*eslint no-console: 0*/
+/*eslint linebreak-style: ["error", "unix"]*/
 const express = require('express'),
     router = express.Router(),
     User = require('./model/users');
