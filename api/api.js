@@ -2,10 +2,10 @@
 /*eslint-env node*/
 /*eslint no-console: 0*/
 /*eslint linebreak-style: ["error", "unix"]*/
+/*eslint linebreak-style: ["error", "windows"]*/
 const express = require('express'),
     api = express(),
     parser = require('body-parser'),
-    multer = require('multer'),
     dbRouter = require('./dbConfig/index'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
@@ -15,47 +15,18 @@ const express = require('express'),
     dbName = 'home',
     dbPort = 27017;
 
-// File uploads
-const storage = multer.diskStorage({
-    destination: function(req, file, callback) {
-        callback(null, '../client/public/img');
-    },
-    filename: function(req, file, cb) {
-        cb(null, (fileName = file.originalname));
-        fileName;
-        console.log(fileName); // Appending extension
-    },
-});
-
-
-const upload = multer({ storage: storage }).array('image', 100);
-
-api.post('/api/imageupload', function(req, res) {
-    console.log(req.body);
-    upload(req, res, function(err) {
-        if(err) {
-            return res.send('Error uploading file(s)');
-        } else {
-            return res.send('File is uploaded');
-        }
-    });
-});
-
-
 
 // Database listening
-
 database.connect(`mongodb://localhost:${dbPort}/${dbName}`, () =>
     console.log(`The database has initiated on port ${dbPort}`)
 );
 const store = database.connection;
 
 // parse incoming requests
-api.use(parser.json());
-api.use(parser.urlencoded({ extended: false }));
+api.use(parser.json({ limit: '50mb' }));
+api.use(parser.urlencoded({ extended: true, limit: '50mb' }));
 
 // POST / New Post
-
 api.post('/api/newpost', function(req, res, next) {
     const projectData = req.body;
     console.log(req.body);
@@ -113,6 +84,64 @@ api.get('/api/logout', function(req, res, next) {
             }
         });
     }
+});
+
+// GET / All Projects
+api.get('/api/projects', function(req, res, next) {
+    Project.find({}, function(err, docs) {
+        if (!err) {
+            const results = {
+                'posts': {}
+            };
+            results.posts = docs;
+            res.send(results);
+        } else {
+            res.send(err);
+        }
+    });
+});
+
+// GET / Single Project
+api.get('/api/post/:id', function(req, res, next) {
+    Project.findOne({_id: req.params.id}, function (err, docs){
+        if (!err) {
+            const results = {
+                'post': {}
+            };
+            results.post = docs;
+            res.send(results);
+        } else {
+            res.send(err);
+        }
+    });
+});
+
+// POST / Update Project
+api.post('/api/update/:id', function(req, res, next) {
+    const projectData = req.body;
+    console.log(req.body);
+    Project.findOneAndUpdate({_id: req.params.id}, projectData, function (err, docs){
+        if (!err) {
+            const results = {
+                'post': {}
+            };
+            results.post = docs;
+            res.send(true);
+        } else {
+            res.send(err);
+        }
+    });
+});
+
+// GET / Delete Project
+api.get('/api/delete/:id', function(req, res, next) {
+    Project.findOneAndRemove({ _id: req.params.id }, function (err) {
+        if (!err) {
+            res.send(true);
+        } else {
+            res.send(err);
+        }
+    });
 });
 
 

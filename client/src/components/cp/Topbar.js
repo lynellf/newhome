@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Topbar extends Component {
@@ -39,9 +39,9 @@ class Topbar extends Component {
             <h2 className="cpanel__top__title">Ezell Frazier</h2>
             <ul className="cpanel__top__options">
               <li className="cpanel__top__item">
-                <a href="#logout" className="cpanel__top__link">
+                <Link to="/controlpanel/newpost" className="cpanel__top__link">
                   New Post
-                </a>
+                </Link>
               </li>
               <li className="cpanel__top__item">
                 <a href="#logout" className="cpanel__top__link" onClick={event => this.logout()}>

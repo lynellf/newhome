@@ -1,10 +1,13 @@
+//Imported background
+@import './config/houston';
+
 //=====================================================
 //Breakpoints
 //=====================================================
 $breaks: (
   'sm': 599px,
   'med': 600px,
-  'lg': 1024px
+  'lg': 708px
 );
 
 // ==========================================================================
@@ -50,6 +53,7 @@ $seashell: #f1f1f1;
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 p,
@@ -491,12 +495,20 @@ th {
   @include e('container') {
     margin-top: 32px;
     display: flex;
+    padding: 0 16px;
     @include mq('sm') {
       flex-direction: column;
+      min-height: 300px;
     }
 
     @include mq('med') {
+      flex-direction: column;
+      min-height: 400px;
+    }
+
+    @include mq('lg') {
       flex-direction: row;
+      justify-content: space-around;
     }
   }
 
@@ -514,16 +526,74 @@ th {
       overflow: scroll;
       border-radius: 3px;
     }
+    @include mq('sm') {
+      height: 50%;
+    }
     @include mq('med') {
-      width: 50%;
+      height: 50%;
+    }
+    @include mq('lg') {
+      width: 30%;
+    }
+  }
+}
+
+.slideshow {
+  display: flex;
+  @include mq('sm') {
+    min-height: 300px;
+    flex-direction: column;
+  }
+
+  @include mq('med') {
+    flex-direction: column;
+  }
+
+  @include mq('lg') {
+    width: 50%;
+    flex-direction: row;
+    margin: 16px;
+  }
+
+  @include e('reel') {
+    position: relative;
+
+    @include mq('lg') {
+      width: 100%;
+      height: auto;
     }
   }
 
   @include e('image') {
-    height: 100%;
-    width: 100%;
-    transform: scale(0.5 0.5);
+    @include m('active') {
+      visibility: visible;
+      opacity: 1;
+      position: absolute;
+      height: auto;
+      width: 100%;
+      transition: all .4s ease-in-out;
+    }
+
+    @include m('inactive') {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      height: auto;
+      width: 100%;
+      transition: all .4s ease-in-out;
+    }
   }
+
+  @include e('item') {
+    @include mq('sm') {
+      display: none;
+    }
+    @include mq('med') {
+      height: 100%;
+      width: auto;
+    }
+  }
+  
 }
 
 .skill {
@@ -541,7 +611,7 @@ th {
 // Footer
 .footer {
   min-height: 100vh;
-  background-image: url('/home/lynellf/github/newhome/client/src/images/houston.jpg');
+  background-image: $houston;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -600,7 +670,7 @@ th {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('/home/lynellf/github/newhome/client/src/images/houston.jpg');
+  background-image: $houston;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -624,7 +694,7 @@ th {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('/home/lynellf/github/newhome/client/src/images/houston.jpg');
+  background-image: $houston;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -775,7 +845,7 @@ th {
     grid-area: main;
     margin: 0 auto 16px auto;
     width: 100%;
-    max-width: 1024px;
+    max-width: 1500px;
 
     @include e('minor') {
       display: flex;
@@ -835,106 +905,6 @@ th {
         padding: 0 32px;
         max-width: 500px;
         height: auto;
-      }
-    }
-  }
-  @include e('posts') {
-    width: 90%;
-    margin: 32px auto;
-    border: thin solid black;
-
-    @include mq('sm') {
-      width: 100%;
-      padding: 4px;
-      th {
-        display: none;
-      }
-
-      td:nth-of-type(1):before {
-        content: 'Name';
-        font-weight: 700;
-        display: inline-block;
-        width: 50%;
-      }
-
-      td:nth-of-type(2):before {
-        content: 'Date Created';
-        font-weight: 700;
-        display: inline-block;
-        width: 50%;
-      }
-
-      td:nth-of-type(3):before {
-        content: 'Options';
-        font-weight: 700;
-        display: inline-block;
-        width: 50%;
-      }
-    }
-
-    @include mq('med') {
-      padding: 16px;
-      td {
-        text-align: center;
-      }
-    }
-
-    @include e('buttons') {
-      display: inline-block;
-      button {
-        border: none;
-        outline: none;
-        margin: 0 2px;
-        background: black;
-        color: white;
-        border: thin solid white;
-        padding: 8px;
-        border-radius: 6px;
-        transition: all 0.1s ease-in-out;
-
-        &:active {
-          background: $shamrock;
-        }
-      }
-    }
-    @include e('nav') {
-        display: flex;
-        list-style: none;
-        margin: auto;
-        padding: 0;
-        max-width: 100px;
-    }
-    @include e('item') {
-        padding: 8px;
-        border-radius: 6px;
-        background: black;
-        color: white;
-        margin: 0 8px;
-        transition: all 0.1s ease-in-out;
-
-         &:active {
-            background: $shamrock;
-        }
-
-    }
-    @include e('post') {
-      @include m('active') {
-        &:nth-child(2n) {
-          background: $seashell;
-          color: black;
-        }
-
-        @include mq('sm') {
-          display: flex;
-          flex-direction: column;
-        }
-      }
-      @include m('inactive') {
-        display: none;
-
-        @include mq('sm') {
-          display: none;
-        }
       }
     }
   }
@@ -1005,4 +975,290 @@ th {
   color: white;
   font-family: 'Titillium Web',
   sans-serif;
+  align-self: center;
+  margin: 16px 0;
+}
+
+.post-form {
+  @include mq('sm') {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  @include mq('med') {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  @include mq('lg') {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: "body extras"; 
+  }
+
+  @include e('body') {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    grid-area: body;
+  }
+
+  @include e('input') {
+    outline: none;
+    border: thin black solid;
+    padding: 6px;
+    align-self: center;
+    width: 80%;
+    border-radius: 6px;
+    margin: 8px 0;
+  }
+
+  @include e('title') {
+    align-self: center;
+  }
+
+  @include e('editor') {
+    text-align: center;
+    align-self: center;
+    margin: 16px;
+    min-height: 400px;
+    width: 90%;
+    @include mq('sm') {
+      max-width: 300px;
+    }
+  }
+
+  @include e('extra') {
+    width: 90%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    grid-area: extras
+  }
+
+  @include e('image-upload') {
+    width: 90%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @include e('dropzone') {
+    border: thin solid black;
+    align-self: center;
+    transition: all .4s ease-in-out;
+
+    @include mq('sm') {
+      padding: 10px;
+    }
+
+    @include mq('med') {
+      padding: 20px;
+    }
+    &:hover {
+      color: white;
+      background: $shamrock;
+      opacity: 0.8;
+    }
+
+    &:active {
+      color: white;
+      background: $shamrock;
+      opacity: 0.8;
+    }
+  }
+
+  @include e('images') {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @include e('image-list') {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    align-items: flex-start;
+  }
+
+  @include e('item') {
+    border: thin solid black;
+    padding: 5px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+  }
+
+  @include e('image') {
+    align-self: center;
+    width: 100%;
+    height: auto;
+  }
+
+  @include e('submit') {
+    align-self: center;
+    color: white;
+    background: black;
+    padding: 8px;
+    margin: 8px 0;
+    transition: all .2s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      background: $shamrock;
+    }
+  }
+
+  @include e('draft') {
+    @include m('false') {
+      padding: 8px;
+      margin: 8px 0;
+      height: auto;
+      text-align: center;
+      align-self: center;
+      color: white;
+      background: black;
+      transition: all .4s ease-in-out;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    @include m('true') {
+      padding: 8px;
+      margin: 8px 0;
+      height: auto;
+      text-align: center;
+      align-self: center;
+      color: white;
+      background: $shamrock;
+      transition: all .4s ease-in-out;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.post-list {
+  width: 90%;
+  margin: 32px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+
+  @include e('table') {
+    align-self: center;
+    margin: 16px 0;
+    width: 100%;
+  }
+
+  @include e('title') {
+    align-self: center;
+  }
+
+  @include mq('sm') {
+    width: 100%;
+    padding: 4px;
+    th {
+      display: none;
+    }
+    td:nth-of-type(1):before {
+      content: 'Name';
+      font-weight: 700;
+      display: inline-block;
+      width: 50%;
+    }
+    td:nth-of-type(2):before {
+      content: 'Date Created';
+      font-weight: 700;
+      display: inline-block;
+      width: 50%;
+    }
+    td:nth-of-type(3):before {
+      content: 'Options';
+      font-weight: 700;
+      display: inline-block;
+      width: 50%;
+    }
+  }
+
+  @include mq('med') {
+    padding: 16px;
+    td {
+      text-align: center;
+    }
+  }
+  @include e('buttons') {
+    display: inline-block;
+    span {
+      border: none;
+      outline: none;
+      margin: 0 2px;
+      background: black;
+      color: white;
+      border: thin solid white;
+      padding: 3px;
+      border-radius: 6px;
+      transition: all 0.1s ease-in-out;
+      &:active {
+        background: $shamrock;
+      }
+
+      &:hover {
+        background: $shamrock;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+  @include e('nav') {
+    display: flex;
+    list-style: none;
+    margin: auto;
+    padding: 0;
+    max-width: 100px;
+  }
+
+  @include e('item') {
+    padding: 8px;
+    border-radius: 6px;
+    background: black;
+    color: white;
+    margin: 0 8px;
+    transition: all 0.1s ease-in-out;
+    &:active {
+      background: $shamrock;
+    }
+  }
+  @include e('post') {
+    @include m('active') {
+      &:nth-child(2n) {
+        background: $seashell;
+        color: black;
+      }
+      @include mq('sm') {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    @include m('inactive') {
+      display: none;
+      @include mq('sm') {
+        display: none;
+      }
+    }
+  }
 }

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import ProjectArticle from './ProjectArticle';
-import Posts from '../posts.json';
+// import Posts from '../posts.json';
+import axios from 'axios';
 
 export default class ProjectContainer extends Component {
   constructor() {
     super();
     this.state = {
-      entries: Posts['posts'],
+      // entries: Posts['posts'],
+      entries: [],
       projectList: [],
       classNames: [],
       titleClassNames: [],
@@ -107,7 +109,8 @@ export default class ProjectContainer extends Component {
   }
 
   setClasses() {
-    const posts = this.state.entries.filter(post => post.skills.length > 0),
+    // const posts = this.state.entries.filter(post => post.skills.length > 0),
+    const posts = this.state.entries,
       classList = [],
       titleList = [],
       controlsList = [];
@@ -124,16 +127,21 @@ export default class ProjectContainer extends Component {
     });
   }
 
-  componentDidMount() {
-    this.setClasses();
+  componentWillMount() {
+    axios.get('/api/projects').then(response => {
+      this.setState({
+        entries: response.data.posts
+      });
+      this.setClasses();
+    });
   }
 
   render() {
-    const entries = this.state.entries.filter(post => post.skills.length > 0);
-    const entryLength = entries.length;
-    console.log(entryLength);
-    const entryList = this.state.entries
-      .filter(post => post.skills.length > 0)
+    // const entries = this.state.entries.filter(post => post.skills.length > 0);
+    const entries = this.state.entries,
+    entryLength = entries.length,
+    entryList = this.state.entries
+      .filter(post => post.tags.length > 0)
       .map((post, index) => (
         <div className="project" key={post._id} id={post._id}>
           <div className={this.state.titleClassNames[index]}>
@@ -189,10 +197,14 @@ export default class ProjectContainer extends Component {
 
           <article className={this.state.classNames[index]}>
             <ProjectArticle
-              post={post.post}
-              image={post.imgUrl}
-              skills={post.skills}
+              post={post.body}
+              images={post.images}
+              skills={post.tags}
               title={post.title}
+              date={post.date}
+              update={post.lastUpdated}
+              git={post.gitHub}
+              url={post.projectUrl}
             />
           </article>
         </div>

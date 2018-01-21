@@ -2,6 +2,7 @@
 /*eslint-env node*/
 /*eslint no-console: 0*/
 /*eslint linebreak-style: ["error", "unix"]*/
+/*eslint linebreak-style: ["error", "windows"]*/
 const collection = require('mongoose'),
     Projects = new collection.Schema({
         title: {
@@ -15,8 +16,8 @@ const collection = require('mongoose'),
             required: true
         },
         images: {
-            data: Buffer,
-            contentType: String
+            type: Array,
+            required: false
         },
         tags: {
             type: Array,
@@ -38,6 +39,10 @@ const collection = require('mongoose'),
             type: String,
             required: false
         },
+        draft: {
+            type: Boolean,
+            required: true
+        }
     });
 
 const Project = collection.model('Projects', Projects);

@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 
-import posts from '../../posts.json';
+import axios from 'axios';
+
+// import posts from '../../posts.json';
 
 export default class Posts extends Component {
   constructor() {
     super();
     this.state = {
-      posts: posts['posts'],
+      // posts: posts['posts'],
+      posts: [],
       postClasses: [],
       sortedPosts: [],
+      confirmation: '',
+      error: false,
+      errorMsg: '',
     };
     this.selectPage = this.selectPage.bind(this);
+    this.deletePost = this.deletePost.bind(this);
+  }
+
+  deletePost(id, arrayIndex, index) {
+    const sortedPosts = this.state.sortedPosts,
+      postClasses = this.state.postClasses;
+    console.log(id);
+    axios
+      .get(`/api/delete/${id}`)
+      .then(response => {
+          console.log(response.data);
+      })
+      .catch(error => this.setState({ error: true, errorMsg: error.message }));
+      sortedPosts[arrayIndex].splice(index, 1);
+      postClasses[arrayIndex].splice(index, 1);
+      this.setState({
+        sortedPosts: sortedPosts,
+        postClasses: postClasses,
+        confirmation: `Post id ${id} has been deleted.`,
+      });
   }
 
   grouper(array) {
@@ -38,22 +65,22 @@ export default class Posts extends Component {
     if (postArray[0].length >= 10) {
       for (let i = 1; i < postArray.length; i++) {
         classNames[i].forEach((className, index) => {
-          classNames[i][index] = 'cpanel__posts__post--inactive';
+          classNames[i][index] = 'post-list__post--inactive';
         });
       }
     } else if (postArray[0].length > 0) {
       classNames[0].forEach((className, index) => {
-        classNames[0][index] = 'cpanel__posts__post--inactive';
+        classNames[0][index] = 'post-list__post--inactive';
       });
 
       for (let i = 0; i < postArray.length; i++) {
         classNames[i].forEach((className, index) => {
-          classNames[i][index] = 'cpanel__posts__post--active';
+          classNames[i][index] = 'post-list__post--active';
         });
       }
     } else {
       classNames[0].forEach((className, index) => {
-        classNames[0][index] = 'cpanel__posts__post--inactive';
+        classNames[0][index] = 'post-list__post--inactive';
       });
     }
     this.setState({
@@ -64,94 +91,101 @@ export default class Posts extends Component {
   selectPage(index, array) {
     let initialClasses = array;
 
-        initialClasses.forEach((list) => {
-            list.forEach((item, index) => {
-                list[index] = 'cpanel__posts__post--inactive';
-            });
-        });
+    initialClasses.forEach(list => {
+      list.forEach((item, index) => {
+        list[index] = 'post-list__post--inactive';
+      });
+    });
 
+    initialClasses[index].forEach((className, i) => {
+      initialClasses[index][i] = 'post-list__post--active';
+    });
 
-        initialClasses[index].forEach((className, i) => {
-            initialClasses[index][i] = 'cpanel__posts__post--active';
-        });
-
-        this.setState({
-            postClasses: initialClasses
-        });
-
+    this.setState({
+      postClasses: initialClasses,
+    });
   }
 
-  componentDidMount() {
-    let posts = this.grouper(this.state.posts),
-      postClasses = [];
-    for (let i = 0; i < this.state.posts.length; i++) {
-      postClasses.push('cpanel__posts__post--active');
-    }
+  componentWillMount() {
+    axios.get('/api/projects').then(response => {
+      this.setState({ posts: response.data.posts });
+      let posts = this.grouper(this.state.posts),
+        postClasses = [];
+      for (let i = 0; i < this.state.posts.length; i++) {
+        postClasses.push('post-list__post--active');
+      }
 
-    postClasses = this.grouper(postClasses);
-    this.setState({
-      sortedPosts: posts,
-      postClasses: postClasses,
+      postClasses = this.grouper(postClasses);
+      this.setState({ sortedPosts: posts, postClasses: postClasses });
+      this.filterPosts(posts, postClasses);
     });
-    this.filterPosts(posts, postClasses);
   }
 
   render() {
     const posts = this.state.sortedPosts,
       classNames = this.state.postClasses,
-      clipString = (string) => {
-          const maxLength = 19;
-          if (string.length > maxLength) {
-              const words = string;
-              let newString = `${words.slice(0, maxLength)}...`;
-            return newString;
-          } else {
-              return string;
-          }
+      clipString = string => {
+        const maxLength = 19;
+        if (string.length > maxLength) {
+          const words = string;
+          let newString = `${words.slice(0, maxLength)}...`;
+          return newString;
+        } else {
+          return string;
+        }
       },
-      pagination = posts.map((post, index) => 
-            <li key={index} className="cpanel__posts__item" onClick={event => this.selectPage(index, classNames)}>{index +1}</li>
-        )
-      ,
-    post = (entries, classNames) => {
-      const sortedEntries = [];
-      for (let i = 0; i < entries.length; i++) {
-        sortedEntries.push(
-          entries[i].map((post, j) => (
-            <tr className={classNames[i][j]} key={post._id}>
-              <td>{clipString(post.title)}</td>
-              <td>{post.date}</td>
-              <td>
-                <div className="cpanel__posts__buttons">
-                  <button>Edit</button>
-                  <button>Delete</button>
-                </div>
-              </td>
-            </tr>
-          ))
-        );
-      }
-      return sortedEntries;
-    };
+      pagination = posts.map((post, index) => (
+        <li
+          key={index}
+          className="post-list__item"
+          onClick={event => this.selectPage(index, classNames)}
+        >
+          {index + 1}
+        </li>
+      )),
+      post = (entries, classNames) => {
+        const sortedEntries = [];
+        for (let i = 0; i < entries.length; i++) {
+          sortedEntries.push(
+            entries[i].map((post, j) => (
+              <tr className={classNames[i][j]} key={post._id}>
+                <td>{clipString(post.title)}</td>
+                <td>{post.date}</td>
+                <td>
+                  <div className="post-list__buttons">
+                    <span>
+                      <Link to={`/controlpanel/edit/${post._id}`}>Edit</Link>
+                    </span>
+                    <span onClick={event => this.deletePost(post._id, i, j)}>
+                      Delete
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))
+          );
+        }
+        return sortedEntries;
+      };
     return (
       <div className="cpanel">
         <Topbar />
         <Sidebar />
         <div className="cpanel__main">
-        <h1 className="cpanel__title">Projects</h1>
-          <table className="cpanel__posts">
-            <thead className="cpanel__posts__thead">
-              <tr>
-                <th>Name</th>
-                <th>Date Created</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-            <tbody>{post(posts, classNames)}</tbody>
-          </table>
-          <ul className="cpanel__posts__nav">
-              { pagination }
-          </ul>
+          <div className="post-list">
+            <h1 className="post-list__title">Projects</h1>
+            <table className="post-list__table">
+              <thead className="post-list__thead">
+                <tr>
+                  <th>Name</th>
+                  <th>Date Created</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>{post(posts, classNames)}</tbody>
+            </table>
+            <ul className="post-list__nav">{pagination}</ul>
+          </div>
         </div>
       </div>
     );

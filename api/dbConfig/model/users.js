@@ -2,6 +2,7 @@
 /*eslint-env node*/
 /*eslint no-console: 0*/
 /*eslint linebreak-style: ["error", "unix"]*/
+/*eslint linebreak-style: ["error", "windows"]*/
 const collection = require('mongoose'),
     bcrypt = require('bcrypt'),
     Users = new collection.Schema({

@@ -7,13 +7,13 @@ import Dropzone from 'react-dropzone';
 import RichTextEditor from 'react-rte';
 import axios from 'axios';
 
-class NewPost extends Component {
-  constructor() {
-    super();
+class EditPost extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       authenticated: false,
       loading: true,
-      value: RichTextEditor.createEmptyValue(),
+      value: RichTextEditor.createValueFromString('', 'html'),
       post: '',
       files: [],
       images: [],
@@ -86,7 +86,7 @@ class NewPost extends Component {
       this.setState({ error: true, errorMsg: 'Post body is emtpy.' });
     } else {
       axios
-        .post('/api/newpost', post)
+        .post(`/api/update/${this.props.match.params.id}`, post)
         .then(response => {
           if (response.data === true) {
             this.props.history.push('/controlpanel/posts');
@@ -138,8 +138,38 @@ class NewPost extends Component {
     });
   }
 
+  getPostData() {
+    axios
+      .get(`/api/post/${this.props.match.params.id}`)
+      .then(response => {
+        console.log(response.data);
+        const image = new Image(),
+          imageArray = [];
+        response.data.post.images.forEach(file => {
+          image.src = file;
+          imageArray.push(image);
+        });
+        this.setState({
+          title: response.data.post.title,
+          value: RichTextEditor.createValueFromString(
+            response.data.post.body,
+            'html'
+          ),
+          files: imageArray,
+          images: response.data.post.images,
+          tags: response.data.post.tags,
+          preview: response.data.post.preview,
+          projectUrl: response.data.post.projectUrl,
+          gitHubUrl: response.data.post.gitHub,
+          draft: response.data.post.draft,
+        });
+      })
+      .catch(error => this.setState({ error: true, errorMsg: error.message }));
+  }
+
   componentWillMount() {
     this.authenticateUser();
+    this.getPostData();
   }
 
   render() {
@@ -151,7 +181,7 @@ class NewPost extends Component {
           <div className="cpanel__main">
             <div className="post-form">
               <div className="post-form__body">
-                <h1 className="post-form__title">New Post</h1>
+                <h1 className="post-form__title">Edit Post</h1>
                 {this.state.error ? (
                   <div className="error">{this.state.errorMsg}</div>
                 ) : null}
@@ -159,6 +189,7 @@ class NewPost extends Component {
                   type="text"
                   placeholder="Project Title"
                   className="post-form__input"
+                  value={this.state.title}
                   onChange={event => this.updateTitle(event)}
                 />
                 <RichTextEditor
@@ -172,7 +203,7 @@ class NewPost extends Component {
                     this.submitNewPost();
                   }}
                 >
-                  Submit Post
+                  Update Post
                 </span>
               </div>
               <div className="post-form__extra">
@@ -187,18 +218,21 @@ class NewPost extends Component {
                   type="text"
                   placeholder="Add Related Skills"
                   className="post-form__input"
+                  value={this.state.tags}
                   onChange={event => this.updateTags(event)}
                 />
                 <input
                   type="text"
                   placeholder="Github Repo Link"
                   className="post-form__input"
+                  value={this.state.gitHubUrl}
                   onChange={event => this.updategitHubtUrl(event)}
                 />
                 <input
                   type="text"
                   placeholder="Project Link"
                   className="post-form__input"
+                  value={this.state.projectUrl}
                   onChange={event => this.updateProjectUrl(event)}
                 />
                 <div className="post-form__image-upload">
@@ -229,7 +263,7 @@ class NewPost extends Component {
                             className="post-form__image"
                           />
                           <span className="post-form__image-details">
-                            {Math.floor(f.size / 1000)} Kb
+                            {Math.floor(f.size / 1000) || 'Unknown'} Kb
                           </span>
                         </li>
                       ))}
@@ -251,4 +285,4 @@ class NewPost extends Component {
   }
 }
 
-export default withRouter(NewPost);
+export default withRouter(EditPost);
