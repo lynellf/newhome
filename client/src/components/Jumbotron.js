@@ -60,22 +60,22 @@ export default class Jumbotron extends Component {
           <div className="greeting__navigation">
           <ul className="greeting__list">
             <li className="greeting__item">
-              <a href={this.props.git} className="button">
+              <a href="#projects" className="button">
                 Projects
               </a>
             </li>
             <li className="greeting__item">
-              <a href={this.props.git} className="button">
+              <a href="#about" className="button">
                 About
               </a>
             </li>
             <li className="greeting__item">
-              <a href={this.props.git} className="button">
+              <a href="#contact" className="button">
                 Contact
               </a>
             </li>
             <li className="greeting__item">
-              <a href={this.props.git} className="button">
+              <a href="https://ezellfrazier.com/projects/ezell_resume.pdf" className="button">
                 Resume
               </a>
             </li>

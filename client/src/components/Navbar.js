@@ -73,10 +73,10 @@ export default class Navbar extends Component {
             <nav className={ this.state.nav }>
               <h1 className={this.state.name}>Ezell Frazier</h1>
               <ul className="navbar__list">
-                <li className={this.state.item}><a href="#projects">Resume</a></li>
-                <li className={this.state.item}><a href="#projects">Portfolio</a></li>
-                <li className={this.state.item}><a href="#projects">Blog</a></li>
-                <li className={this.state.item}><a href="#projects">More</a></li>
+                <li className={this.state.item}><a href="https://ezellfrazier.com/projects/ezell_resume.pdf">Resume</a></li>
+                <li className={this.state.item}><a href="#projects">Projects</a></li>
+                <li className={this.state.item}><a href="#contact">Contact</a></li>
+                <li className={this.state.item}><a href="#about">About</a></li>
               </ul>
             </nav>
           </div>;
