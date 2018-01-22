@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import ProjectArticle from './ProjectArticle';
-// import Posts from '../posts.json';
-import axios from 'axios';
 
 export default class ProjectContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      // entries: Posts['posts'],
-      entries: [],
+      entries: this.props.posts,
       projectList: [],
       classNames: [],
       titleClassNames: [],
@@ -109,7 +106,6 @@ export default class ProjectContainer extends Component {
   }
 
   setClasses() {
-    // const posts = this.state.entries.filter(post => post.skills.length > 0),
     const posts = this.state.entries,
       classList = [],
       titleList = [],
@@ -127,17 +123,11 @@ export default class ProjectContainer extends Component {
     });
   }
 
-  componentWillMount() {
-    axios.get('/api/projects').then(response => {
-      this.setState({
-        entries: response.data.posts
-      });
-      this.setClasses();
-    });
+  componentDidMount() {
+    this.setClasses();
   }
 
   render() {
-    // const entries = this.state.entries.filter(post => post.skills.length > 0);
     const entries = this.state.entries,
     entryLength = entries.length,
     entryList = this.state.entries

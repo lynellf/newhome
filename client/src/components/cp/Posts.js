@@ -12,7 +12,7 @@ export default class Posts extends Component {
   constructor() {
     super();
     this.state = {
-      // posts: posts['posts'],
+      authenticated: false,
       posts: [],
       postClasses: [],
       sortedPosts: [],
@@ -31,16 +31,16 @@ export default class Posts extends Component {
     axios
       .get(`/api/delete/${id}`)
       .then(response => {
-          console.log(response.data);
+        console.log(response.data);
       })
       .catch(error => this.setState({ error: true, errorMsg: error.message }));
-      sortedPosts[arrayIndex].splice(index, 1);
-      postClasses[arrayIndex].splice(index, 1);
-      this.setState({
-        sortedPosts: sortedPosts,
-        postClasses: postClasses,
-        confirmation: `Post id ${id} has been deleted.`,
-      });
+    sortedPosts[arrayIndex].splice(index, 1);
+    postClasses[arrayIndex].splice(index, 1);
+    this.setState({
+      sortedPosts: sortedPosts,
+      postClasses: postClasses,
+      confirmation: `Post id ${id} has been deleted.`,
+    });
   }
 
   grouper(array) {
@@ -106,7 +106,16 @@ export default class Posts extends Component {
     });
   }
 
+  authenticateUser() {
+    axios.get('/api/controlpanel', null).then(response => {
+      if (response.data === true) {
+        this.setState({ authenticated: true });
+      }
+    });
+  }
+
   componentWillMount() {
+    this.authenticateUser();
     axios.get('/api/projects').then(response => {
       this.setState({ posts: response.data.posts });
       let posts = this.grouper(this.state.posts),
@@ -167,27 +176,35 @@ export default class Posts extends Component {
         }
         return sortedEntries;
       };
-    return (
-      <div className="cpanel">
-        <Topbar />
-        <Sidebar />
-        <div className="cpanel__main">
-          <div className="post-list">
-            <h1 className="post-list__title">Projects</h1>
-            <table className="post-list__table">
-              <thead className="post-list__thead">
-                <tr>
-                  <th>Name</th>
-                  <th>Date Created</th>
-                  <th>Options</th>
-                </tr>
-              </thead>
-              <tbody>{post(posts, classNames)}</tbody>
-            </table>
-            <ul className="post-list__nav">{pagination}</ul>
+    if (this.state.authenticated === true) {
+      return (
+        <div className="cpanel">
+          <Topbar />
+          <Sidebar />
+          <div className="cpanel__main">
+            <div className="post-list">
+              <h1 className="post-list__title">Projects</h1>
+              <table className="post-list__table">
+                <thead className="post-list__thead">
+                  <tr>
+                    <th>Name</th>
+                    <th>Date Created</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>{post(posts, classNames)}</tbody>
+              </table>
+              <ul className="post-list__nav">{pagination}</ul>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="unauth">
+          <h1>You are not authorized to view this page</h1>
+        </div>
+      );
+    }
   }
 }

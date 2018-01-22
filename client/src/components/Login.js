@@ -31,7 +31,6 @@ class Login extends Component {
   };
 
   loginUser(userData) {
-    console.log(userData);
     axios
       .post('/api/login', userData)
       .then(response => {
@@ -49,7 +48,7 @@ class Login extends Component {
           });
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => this.setState({ error: true, errorMsg: error.message }));
   }
 
   render() {
