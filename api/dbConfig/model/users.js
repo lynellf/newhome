@@ -3,7 +3,7 @@
 /*eslint no-console: 0*/
 /*eslint linebreak-style: ["error", "unix"]*/
 /*eslint linebreak-style: ["error", "windows"]*/
-const collection = require('mongoose'),
+var collection = require('mongoose'),
     bcrypt = require('bcrypt'),
     Users = new collection.Schema({
         name: {
@@ -47,7 +47,7 @@ Users.statics.authenticate = function(userData, callback) {
 
 // Hash password before saving to database
 Users.pre('save', function(next) {
-    const user = this;
+    var user = this;
     bcrypt.hash(user.password, 10, function(err, hash) {
         if (err) {
             return next(err);
@@ -57,5 +57,5 @@ Users.pre('save', function(next) {
     });
 });
 
-const User = collection.model('User', Users);
+var User = collection.model('User', Users);
 module.exports = User;

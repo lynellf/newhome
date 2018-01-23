@@ -3,7 +3,7 @@
 /*eslint no-console: 0*/
 /*eslint linebreak-style: ["error", "unix"]*/
 /*eslint linebreak-style: ["error", "windows"]*/
-const collection = require('mongoose'),
+var collection = require('mongoose'),
     Projects = new collection.Schema({
         title: {
             type: String,
@@ -45,5 +45,5 @@ const collection = require('mongoose'),
         }
     });
 
-const Project = collection.model('Projects', Projects);
+var Project = collection.model('Projects', Projects);
 module.exports = Project;

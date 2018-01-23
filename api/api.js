@@ -3,7 +3,7 @@
 /*eslint no-console: 0*/
 /*eslint linebreak-style: ["error", "unix"]*/
 /*eslint linebreak-style: ["error", "windows"]*/
-const express = require('express'),
+var express = require('express'),
     api = express(),
     parser = require('body-parser'),
     dbRouter = require('./dbConfig/index'),
@@ -20,7 +20,7 @@ const express = require('express'),
 database.connect(`mongodb://localhost:${dbPort}/${dbName}`, () =>
     console.log(`The database has initiated on port ${dbPort}`)
 );
-const store = database.connection;
+var store = database.connection;
 
 // parse incoming requests
 api.use(parser.json({ limit: '50mb' }));
@@ -28,7 +28,7 @@ api.use(parser.urlencoded({ extended: true, limit: '50mb' }));
 
 // POST / New Post
 api.post('/api/newpost', function(req, res, next) {
-    const projectData = req.body;
+    var projectData = req.body;
     console.log(req.body);
     Project.create(projectData, (err) => {
         if (err) {
@@ -53,15 +53,15 @@ api.use(session({
 // Database routing
 api.use('/api', dbRouter);
 
-const User = require('./dbConfig/model/users');
+var User = require('./dbConfig/model/users');
 
 // POST / User login
 api.post('/api/login', (req, res, next) => {
     console.log(req.body);
-    const userData = req.body;
+    var userData = req.body;
     User.authenticate(userData, (error, user, err) => {
         if (err) {
-            let err = new Error('Wrong email or password');
+            err = new Error('Wrong email or password');
             err.status = 401;
             next(err);
         } else {
@@ -90,7 +90,7 @@ api.get('/api/logout', function(req, res, next) {
 api.get('/api/projects', function(req, res, next) {
     Project.find({}, function(err, docs) {
         if (!err) {
-            const results = {
+            var results = {
                 'posts': {}
             };
             results.posts = docs;
@@ -105,7 +105,7 @@ api.get('/api/projects', function(req, res, next) {
 api.get('/api/post/:id', function(req, res, next) {
     Project.findOne({_id: req.params.id}, function (err, docs){
         if (!err) {
-            const results = {
+            var results = {
                 'post': {}
             };
             results.post = docs;
@@ -118,11 +118,11 @@ api.get('/api/post/:id', function(req, res, next) {
 
 // POST / Update Project
 api.post('/api/update/:id', function(req, res, next) {
-    const projectData = req.body;
+    var projectData = req.body;
     console.log(req.body);
     Project.findOneAndUpdate({_id: req.params.id}, projectData, function (err, docs){
         if (!err) {
-            const results = {
+            var results = {
                 'post': {}
             };
             results.post = docs;
@@ -147,7 +147,7 @@ api.get('/api/delete/:id', function(req, res, next) {
 
 api.use('/api/session', function(req, res) {
     console.log(req.session.userId);
-    const sessionData = req.session;
+    var sessionData = req.session;
     sessionData.currentUser = req.session.userId;
     res.send(sessionData);
 });
