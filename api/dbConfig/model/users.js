@@ -31,7 +31,7 @@ Users.statics.authenticate = function(userData, callback) {
             if (error) {
                 return callback(error);
             } else if ( !user ) {
-                let err = new Error('User not found.');
+                var err = new Error('User not found.');
                 err.status = 401;
                 return callback(err);
             }
