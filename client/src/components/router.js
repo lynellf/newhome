@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-browser-router';
+import { BrowserRouter as Router, Route } from 'react-browser-router';
 
 import Index from './Index';
 import Register from './Register';
@@ -13,7 +13,6 @@ import Notfound from './Notfound';
 export const routes = () => {
   return (
     <Router>
-      <Switch>
         <Route exact path="/" render={() => <Index />} />
         <Route exact path="/register" render={() => <Register />} />
         <Route exact path="/login" render={() => <Login />} />
@@ -25,8 +24,6 @@ export const routes = () => {
           path="/controlpanel/edit/:id"
           render={() => <EditPost />}
         />
-        <Route component={Notfound}/>
-      </Switch>
     </Router>
   );
 };
