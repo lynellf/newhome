@@ -1,16 +1,9 @@
 //Imported background
 @import './config/houston';
-
 //=====================================================
 //Breakpoints
 //=====================================================
-$breaks: (
-  'sm': 599px,
-  'med': 600px,
-  'lg': 708px,
-  'xl': 1000px,
-);
-
+$breaks: ( 'sm': 599px, 'med': 600px, 'lg': 708px, 'xl': 1000px, );
 // ==========================================================================
 // BEM Selectors
 // ==========================================================================
@@ -34,11 +27,13 @@ $breaks: (
   $med: map-get($breaks, 'med');
   @if $value==null {
     @error "`#{$break}` is not a valid breakpoint name";
-  } @else if $value < $med {
+  }
+  @else if $value < $med {
     @media (max-width: $value) {
       @content;
     }
-  } @else {
+  }
+  @else {
     @media (min-width: $value) {
       @content;
     }
@@ -48,10 +43,8 @@ $breaks: (
 // Color Variables
 $shamrock: #2dbcad;
 $seashell: #f1f1f1;
-
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Hind|Titillium+Web:700i');
-
 body {
   margin: 0;
   overflow-x: hidden;
@@ -91,13 +84,11 @@ th {
   margin: auto;
   height: 100vh;
   overflow: hidden;
-
   @include e('img') {
     @include m('inactive') {
       visibility: hidden;
       opacity: 0;
     }
-
     @include m('active') {
       visibility: visible;
       opacity: 1;
@@ -112,12 +103,10 @@ th {
   transition: all 0.4s ease-in-out;
   width: 100%;
   z-index: 0;
-
   @include mq('sm') {
     top: 10%;
     transform: scale(2);
   }
-
   @include mq('med') {
     transform: scale(1.2);
   }
@@ -132,7 +121,6 @@ th {
   left: 0;
   text-align: center;
   top: 40%;
-
   @include e('name') {
     margin: auto;
     color: white;
@@ -144,12 +132,10 @@ th {
     @include mq('med') {
       font-size: 4em;
     }
-
     @include mq('lg') {
       font-size: 8em;
     }
   }
-
   @include e('sub') {
     margin: auto;
     color: white;
@@ -158,12 +144,10 @@ th {
     @include mq('sm') {
       font-size: 1em;
     }
-
     @include mq('med') {
       font-size: 2em;
     }
   }
-
   @include e('navigation') {
     display: flex;
     flex-direction: column-reverse;
@@ -177,7 +161,6 @@ th {
       min-height: 300px;
     }
   }
-
   @include e('list') {
     padding: 0;
     list-style: none;
@@ -204,7 +187,6 @@ th {
   z-index: 100;
   width: 100%;
   transition: all 0.4s ease-in-out;
-
   @include m('scrolled') {
     position: fixed;
     z-index: 100;
@@ -212,12 +194,10 @@ th {
     background: black;
     opacity: 0.3;
     transition: all 0.4s ease-in-out;
-
     &:hover {
       opacity: 0.8;
     }
   }
-
   @include e('nav') {
     @include mq('sm') {
       display: flex;
@@ -225,7 +205,6 @@ th {
       height: 16px;
       transition: all 0.4s ease-in-out;
     }
-
     @include m('toggled') {
       @include mq('sm') {
         display: flex;
@@ -233,33 +212,27 @@ th {
         height: 190px;
         transition: all 0.4s ease-in-out;
       }
-
       display: flex;
       justify-content: space-between;
       transition: all 0.4s ease-in-out;
     }
-
     display: flex;
     justify-content: space-between;
     transition: all 0.4s ease-in-out;
   }
-
   @include e('name') {
     font-family: 'Hind', sans-serif;
     @include mq('sm') {
       margin: auto;
     }
-
     @include mq('med') {
       margin: 16px 0;
       padding-left: 30px;
     }
-
     color: white;
     visibility: hidden;
     opacity: 0;
     transition: all 0.4s ease-in-out;
-
     @include m('scrolled') {
       font-family: 'Hind', sans-serif;
       @include mq('sm') {
@@ -267,14 +240,12 @@ th {
         visibility: hidden;
         opacity: 0;
       }
-
       @include mq('med') {
         margin: 16px 0;
         padding-left: 30px;
         visibility: visible;
         opacity: 1;
       }
-
       @include m('toggled') {
         font-family: 'Hind', sans-serif;
         @include mq('sm') {
@@ -284,23 +255,19 @@ th {
           color: white;
           transition: all 0.4s ease-in-out;
         }
-
         @include mq('med') {
           margin: 16px 0;
           padding-left: 30px;
           visibility: visible;
           opacity: 1;
         }
-
         color: white;
         transition: all 0.4s ease-in-out;
       }
-
       color: white;
       transition: all 0.4s ease-in-out;
     }
   }
-
   @include e('list') {
     font-family: 'Hind', sans-serif;
     display: flex;
@@ -309,27 +276,22 @@ th {
       margin: auto;
       padding: 0;
     }
-
     @include mq('med') {
       padding-right: 30px;
     }
   }
-
   @include e('item') {
     font-family: 'Hind', sans-serif;
     @include mq('sm') {
       margin: 8px 0;
     }
-
     @include mq('med') {
       margin: 0 20px;
     }
-
     visibility: hidden;
     opacity: 0;
     color: white;
     list-style: none;
-
     @include m('scrolled') {
       font-family: 'Hind', sans-serif;
       @include mq('sm') {
@@ -345,7 +307,6 @@ th {
       }
       color: white;
       list-style: none;
-
       a {
         padding: 6px;
         text-decoration: none;
@@ -359,7 +320,6 @@ th {
           transition: all 0.1s ease-in-out;
         }
       }
-
       @include m('toggled') {
         font-family: 'Hind', sans-serif;
         @include mq('sm') {
@@ -371,16 +331,13 @@ th {
           color: white;
           transition: all 0.4s ease-in-out;
         }
-
         @include mq('med') {
           margin: 0 20px;
           visibility: visible;
           opacity: 1;
         }
-
         color: white;
         list-style: none;
-
         a {
           padding: 6px;
           text-decoration: none;
@@ -397,7 +354,6 @@ th {
       }
     }
   }
-
   @include e('hamburger') {
     display: none;
     visibility: hidden;
@@ -409,7 +365,6 @@ th {
       fill: white;
       enable-background: new 0 0 32 32;
     }
-
     @include m('scrolled') {
       display: none;
       visibility: hidden;
@@ -438,7 +393,6 @@ th {
   &:hover {
     background: white;
   }
-
   @include e('title-container') {
     @include m('active') {
       display: flex;
@@ -446,7 +400,6 @@ th {
       margin-top: 46px;
     }
   }
-
   @include e('title') {
     margin: 20px 16px;
     font-family: 'Hind', sans-serif;
@@ -457,11 +410,9 @@ th {
       cursor: pointer;
     }
   }
-
   @include e('controls') {
     visibility: hidden;
     display: none;
-
     @include m('active') {
       margin-top: 20px;
       @include mq('med') {
@@ -469,11 +420,9 @@ th {
       }
     }
   }
-
   @include e('article') {
     visibility: hidden;
     display: none;
-
     @include m('active') {
       transition: all 0.4s ease-in-out;
       visibility: visible;
@@ -495,7 +444,6 @@ th {
       cursor: pointer;
     }
   }
-
   @include e('forward') {
     @include mq('sm') {
       margin: 0 4px;
@@ -507,7 +455,6 @@ th {
       cursor: pointer;
     }
   }
-
   @include e('close') {
     &:hover {
       cursor: pointer;
@@ -524,25 +471,18 @@ th {
       flex-direction: column;
       min-height: 300px;
     }
-
     @include mq('med') {
-      flex-direction: column;
-      min-height: 400px;
-    }
-
-    @include mq('lg') {
-      flex-direction: row;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: pem(16);
     }
   }
-
   @include e('title') {
     text-align: center;
     @include mq('xl') {
       font-size: 25px;
     }
   }
-
   @include e('post') {
     margin-left: 8px;
     img {
@@ -550,7 +490,6 @@ th {
       width: 100%;
       transform: scale(0.5 0.5);
     }
-
     pre {
       background: black;
       color: white;
@@ -560,30 +499,14 @@ th {
     @include mq('sm') {
       height: 50%;
     }
-    @include mq('med') {
-      height: 50%;
-    }
-    @include mq('lg') {
-      width: 30%;
-    }
   }
-
   @include e('details') {
     display: flex;
     flex-direction: column;
     @include mq('sm') {
       height: 50%;
     }
-
-    @include mq('med') {
-      height: 50%;
-    }
-
-    @include mq('lg') {
-      width: 50%;
-    }
   }
-
   @include e('extra') {
     align-self: center;
     display: flex;
@@ -592,14 +515,12 @@ th {
       margin-bottom: 16px;
     }
   }
-
   @include e('list') {
     list-style: none;
     display: flex;
     justify-content: space-around;
     padding: 0;
   }
-
   @include e('item') {
     padding: 5px;
     min-width: 10px;
@@ -619,36 +540,30 @@ th {
     height: 350px;
     flex-direction: column;
   }
-
   @include mq('med') {
     flex-direction: column;
     width: 50%;
     min-height: 450px;
   }
-
   @include mq('lg') {
     width: 50%;
     flex-direction: row;
     margin: 16px;
     min-height: 450px;
   }
-
   @include mq('xl') {
     width: 65%;
     flex-direction: row;
     margin: 16px;
     min-height: 900px;
   }
-
   @include e('reel') {
     position: relative;
-
     @include mq('lg') {
       width: 100%;
       height: auto;
     }
   }
-
   @include e('image') {
     @include m('active') {
       visibility: visible;
@@ -662,7 +577,6 @@ th {
         width: 100%;
       }
     }
-
     @include m('inactive') {
       visibility: hidden;
       opacity: 0;
@@ -676,7 +590,6 @@ th {
       }
     }
   }
-
   @include e('item') {
     @include mq('sm') {
       display: none;
@@ -686,7 +599,6 @@ th {
       width: auto;
     }
   }
-  
 }
 
 // Footer
@@ -700,31 +612,25 @@ th {
   display: flex;
   align-items: flex-start;
   flex-direction: column-reverse;
-
   @include e('container') {
     background: black;
     border-radius: 4px;
     opacity: 0.8;
-
     @include mq('sm') {
       margin-top: 50px;
     }
-
     @include mq('med') {
       margin-top: 50px;
     }
-
     @include mq('lg') {
       padding: 8px;
       width: 35%;
     }
   }
-
   @include e('title') {
     color: white;
     font-family: 'Hind', sans-serif;
   }
-
   @include e('social') {
     fill: white;
     width: auto;
@@ -735,11 +641,9 @@ th {
       fill: $shamrock;
     }
   }
-
   @include e('summary') {
     color: white;
   }
-
   @include e('legal') {
     color: white;
   }
@@ -780,7 +684,6 @@ th {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
   @include e('form') {
     display: flex;
     flex-direction: column;
@@ -801,49 +704,40 @@ th {
   min-height: 100vh;
   @include mq('sm') {
     grid-template-rows: 65px 65px 1fr;
-    grid-template-areas:
-      'top'
-      'side'
-      'main';
+    grid-template-areas: 'top' 'side' 'main';
   }
   @include mq('med') {
     grid-template-rows: 65px 1fr;
     grid-template-columns: 65px 1fr;
-    grid-template-areas:
-      'top top'
-      'side main';
+    grid-template-areas: 'top top' 'side main';
   }
-
   @include e('editor') {
     margin: auto;
     margin-top: 50px;
     @include mq('sm') {
       width: 95%;
     }
-
     @include mq('med') {
       min-width: 500px;
       max-width: 900px;
     }
   }
-
   @include e('top') {
     grid-area: top;
     display: flex;
     justify-content: space-between;
     background: black;
     color: white;
-
     @include e('title') {
       margin: 15px 16px;
       @include mq('sm') {
-          font-size: 0.8em;
+        font-size: 0.8em;
       }
     }
     @include e('options') {
-        @include mq('sm') {
-            font-size: 0.7em;
-        }
+      @include mq('sm') {
+        font-size: 0.7em;
+      }
       list-style: none;
       display: flex;
       margin: 20px 16px;
@@ -863,7 +757,6 @@ th {
       }
     }
   }
-
   @include e('side') {
     grid-area: side;
     display: flex;
@@ -874,18 +767,14 @@ th {
       align-items: center;
       justify-content: space-around;
     }
-
     @include mq('med') {
       flex-direction: column;
     }
-
     @include e('traffic') {
       @include mq('sm') {
         height: auto;
-        width: 50%;
-        // margin: 0 44px;
+        width: 50%; // margin: 0 44px;
       }
-
       @include mq('med') {
         height: 35px;
         width: auto;
@@ -893,52 +782,45 @@ th {
       }
     }
     @include e('files') {
-        @include mq('sm') {
-            height: auto;
-            width: 50%;
-            // margin: 0 44px;
-        }
-        @include mq('med') {
-            height: 35px;
-            width: 35px;
-            margin: 40px auto;
-        }
+      @include mq('sm') {
+        height: auto;
+        width: 50%; // margin: 0 44px;
+      }
+      @include mq('med') {
+        height: 35px;
+        width: 35px;
+        margin: 40px auto;
+      }
     }
     @include e('news') {
-        @include mq('sm') {
-            height: auto;
-            width: 50%;
-            // margin: 0 44px;
-        }
-        @include mq('med') {
-            height: 30px;
-            width: auto;
-            margin: 40px auto;
-        }
+      @include mq('sm') {
+        height: auto;
+        width: 50%; // margin: 0 44px;
+      }
+      @include mq('med') {
+        height: 30px;
+        width: auto;
+        margin: 40px auto;
+      }
     }
   }
-
   @include e('title') {
     text-align: center;
   }
-
   @include e('main') {
     grid-area: main;
     margin: 0 auto 16px auto;
     width: 100%;
     max-width: 1500px;
-
     @include e('minor') {
       display: flex;
       @include mq('sm') {
         flex-direction: column;
       }
     }
-
     @include e('title') {
       display: inline-block;
     }
-
     @include e('monthly') {
       margin: auto;
       min-width: 75%;
@@ -947,14 +829,12 @@ th {
         padding: 0 16px;
         height: auto;
       }
-
       @include mq('med') {
         padding: 0 32px;
         max-width: 800px;
         height: auto;
       }
     }
-
     @include e('daily') {
       margin: auto;
       min-width: 40%;
@@ -964,14 +844,12 @@ th {
         max-width: 300px;
         height: auto;
       }
-
       @include mq('med') {
         padding: 0 32px;
         max-width: 500px;
         height: auto;
       }
     }
-
     @include e('mobile') {
       margin: auto;
       min-width: 40%;
@@ -981,7 +859,6 @@ th {
         max-width: 300px;
         height: auto;
       }
-
       @include mq('med') {
         padding: 0 32px;
         max-width: 500px;
@@ -1000,18 +877,15 @@ th {
       flex-direction: column;
     }
   }
-
   @include e('item') {
     margin: auto;
   }
-
   @include e('traffic') {
     @include mq('sm') {
       height: auto;
       width: 50px;
       margin: 0 25px;
     }
-
     @include mq('med') {
       height: auto;
       width: 100%;
@@ -1054,8 +928,7 @@ th {
   border-radius: 6px;
   background: red;
   color: white;
-  font-family: 'Titillium Web',
-  sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   align-self: center;
   margin: 16px 0;
 }
@@ -1066,20 +939,17 @@ th {
     align-items: flex-start;
     flex-direction: column;
   }
-
   @include mq('med') {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
   }
-
   @include mq('lg') {
     display: grid;
     width: 100%;
     grid-template-columns: 2fr 1fr;
-    grid-template-areas: "body extras"; 
+    grid-template-areas: "body extras";
   }
-
   @include e('body') {
     display: flex;
     flex-direction: column;
@@ -1087,7 +957,6 @@ th {
     width: 100%;
     grid-area: body;
   }
-
   @include e('input') {
     outline: none;
     border: thin black solid;
@@ -1097,11 +966,9 @@ th {
     border-radius: 6px;
     margin: 8px 0;
   }
-
   @include e('title') {
     align-self: center;
   }
-
   @include e('editor') {
     text-align: center;
     align-self: center;
@@ -1112,7 +979,6 @@ th {
       max-width: 300px;
     }
   }
-
   @include e('extra') {
     width: 90%;
     align-self: center;
@@ -1121,7 +987,6 @@ th {
     align-items: flex-start;
     grid-area: extras
   }
-
   @include e('image-upload') {
     width: 90%;
     align-self: center;
@@ -1129,16 +994,13 @@ th {
     flex-direction: column;
     align-items: flex-start;
   }
-
   @include e('dropzone') {
     border: thin solid black;
     align-self: center;
     transition: all .4s ease-in-out;
-
     @include mq('sm') {
       padding: 10px;
     }
-
     @include mq('med') {
       padding: 20px;
     }
@@ -1147,21 +1009,18 @@ th {
       background: $shamrock;
       opacity: 0.8;
     }
-
     &:active {
       color: white;
       background: $shamrock;
       opacity: 0.8;
     }
   }
-
   @include e('images') {
     align-self: center;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
-
   @include e('image-list') {
     list-style: none;
     display: flex;
@@ -1170,7 +1029,6 @@ th {
     text-align: center;
     align-items: flex-start;
   }
-
   @include e('item') {
     border: thin solid black;
     padding: 5px;
@@ -1179,13 +1037,11 @@ th {
     flex-direction: column;
     width: 25%;
   }
-
   @include e('image') {
     align-self: center;
     width: 100%;
     height: auto;
   }
-
   @include e('submit') {
     align-self: center;
     color: white;
@@ -1198,7 +1054,6 @@ th {
       background: $shamrock;
     }
   }
-
   @include e('draft') {
     @include m('false') {
       padding: 8px;
@@ -1213,7 +1068,6 @@ th {
         cursor: pointer;
       }
     }
-
     @include m('true') {
       padding: 8px;
       margin: 8px 0;
@@ -1237,17 +1091,14 @@ th {
   flex-direction: column;
   align-items: flex-start;
   box-sizing: border-box;
-
   @include e('table') {
     align-self: center;
     margin: 16px 0;
     width: 100%;
   }
-
   @include e('title') {
     align-self: center;
   }
-
   @include mq('sm') {
     width: 100%;
     padding: 4px;
@@ -1273,7 +1124,6 @@ th {
       width: 50%;
     }
   }
-
   @include mq('med') {
     padding: 16px;
     td {
@@ -1295,7 +1145,6 @@ th {
       &:active {
         background: $shamrock;
       }
-
       &:hover {
         background: $shamrock;
       }
@@ -1312,7 +1161,6 @@ th {
     padding: 0;
     max-width: 100px;
   }
-
   @include e('item') {
     padding: 8px;
     border-radius: 6px;
@@ -1345,8 +1193,7 @@ th {
 }
 
 .button {
-  font-family: 'Hind',
-  sans-serif;
+  font-family: 'Hind', sans-serif;
   text-align: center;
   margin: 0 4px;
   padding: 6px;
