@@ -520,6 +520,8 @@ th {
     display: flex;
     justify-content: space-around;
     padding: 0;
+    max-width: 300px;
+    flex-wrap: wrap;
   }
   @include e('item') {
     padding: 5px;
@@ -528,6 +530,7 @@ th {
     color: white;
     background: $shamrock;
     border-radius: 6px;
+    margin-bottom: 16px;
     @include mq('xl') {
       font-size: 20px;
     }

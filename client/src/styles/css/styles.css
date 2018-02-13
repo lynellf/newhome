@@ -402,14 +402,17 @@ th {
   list-style: none;
   display: flex;
   justify-content: space-around;
-  padding: 0; }
+  padding: 0;
+  max-width: 300px;
+  flex-wrap: wrap; }
 .article__item {
   padding: 5px;
   min-width: 10px;
   font-weight: 700;
   color: white;
   background: #2dbcad;
-  border-radius: 6px; }
+  border-radius: 6px;
+  margin-bottom: 16px; }
   @media (min-width: 1000px) {
     .article__item {
       font-size: 20px; } }
